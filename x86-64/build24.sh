@@ -7,6 +7,7 @@ LOGFILE="/tmp/uci-defaults-log.txt"
 echo "Starting 99-custom.sh at $(date)" >> $LOGFILE
 echo "编译固件大小为: $PROFILE MB"
 echo "Include Docker: $INCLUDE_DOCKER"
+echo "Enable Sound ALC5672: $ENABLE_SOUND"
 
 echo "Create pppoe-settings"
 mkdir -p  /home/build/immortalwrt/files/etc/config
@@ -69,6 +70,13 @@ if [ "$INCLUDE_DOCKER" = "yes" ]; then
     PACKAGES="$PACKAGES luci-i18n-dockerman-zh-cn"
     echo "Adding package: luci-i18n-dockerman-zh-cn"
 fi
+
+# ====================== 在这里加入 ALC5672 声卡驱动 ======================
+if [ "$ENABLE_SOUND" = "yes" ]; then
+    echo "✅ 启用 ALC5672 声卡驱动"
+    PACKAGES="$PACKAGES kmod-sound-core kmod-sound-soc-core kmod-sound-soc-rt5670 kmod-sound-soc-intel kmod-sound-soc-intel-bytcrto kmod-sound-hda-core kmod-sound-hda-codec-realtek alsa-utils alsa-utils-aplay alsa-utils-amixer"
+fi
+# ========================================================================
 
 # 若构建openclash 则添加内核
 if echo "$PACKAGES" | grep -q "luci-app-openclash"; then

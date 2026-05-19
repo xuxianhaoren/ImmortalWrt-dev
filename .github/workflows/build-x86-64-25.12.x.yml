@@ -72,7 +72,7 @@ jobs:
             fi
           fi
 
-      - name: Build ImmortalWrt-x86-64-efi 25.12.x
+            - name: Build ImmortalWrt-x86-64-efi 25.12.x + ALC5672 声卡
         run: |
           profile="${{ github.event.inputs.profile }}"
           include_docker="${{ github.event.inputs.include_docker }}"
@@ -91,6 +91,7 @@ jobs:
             -e ENABLE_PPPOE=${{ inputs.enable_pppoe }} \
             -e PPPOE_ACCOUNT=${{ inputs.pppoe_account }} \
             -e PPPOE_PASSWORD=${{ inputs.pppoe_password }} \
+            -e INCLUDE_ALC5672=yes \
           immortalwrt/imagebuilder:x86-64-openwrt-${luci_version} /bin/bash /home/build/immortalwrt/build.sh
           
 

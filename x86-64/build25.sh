@@ -118,3 +118,25 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Build completed successfully."
+
+# ==========================
+# 自动安装 ALC5672 声卡驱动
+# ==========================
+if [ "$INCLUDE_ALC5672" = "yes" ]; then
+  echo "===== 自动安装 ALC5672 声卡驱动 ====="
+  make image \
+    PACKAGES="\
+    kmod-sound-core \
+    kmod-sound-soc-core \
+    kmod-sound-soc-rt5670 \
+    kmod-sound-soc-intel \
+    kmod-sound-soc-intel-bytcrto \
+    kmod-sound-hda-core \
+    kmod-sound-hda-codec-realtek \
+    alsa-utils \
+    alsa-utils-aplay \
+    alsa-utils-amixer \
+  "
+else
+  make image
+fi
